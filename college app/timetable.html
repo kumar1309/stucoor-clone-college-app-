@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable</title>
+    <style>
+        body {
+            padding: 30px;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <!-- Include Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+</head>
+<body>
+    <h1>Timetable</h1>
+    <p>View your class timetable here.</p>
+    <a href="index.html">Back to Home</a>
+
+    <table id="timetable">
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Time</th>
+                <th>Subject</th>
+                <th>Instructor</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Timetable entries will be injected here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Function to fetch timetable
+        function fetchTimetable(department) {
+            const timetableRef = database.ref('timetables/' + department);
+            timetableRef.once('value', (snapshot) => {
+                const data = snapshot.val();
+                const tbody = document.getElementById('timetable').getElementsByTagName('tbody')[0];
+
+                // Clear existing rows
+                tbody.innerHTML = '';
+
+                for (const day in data) {
+                    data[day].forEach(entry => {
+                        const row = tbody.insertRow();
+                        row.insertCell(0).innerText = day;
+                        row.insertCell(1).innerText = entry.time;
+                        row.insertCell(2).innerText = entry.subject;
+                        row.insertCell(3).innerText = entry.instructor;
+                    });
+                }
+            });
+        }
+
+        // Call fetchTimetable with the desired department (e.g., "CSE")
+        fetchTimetable('CSE');
+    </script>
+</body>
+</html>

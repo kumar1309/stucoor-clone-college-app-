@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <style>
+        body {
+            padding: 30px;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem; /* Slightly larger heading */
+            margin-bottom: 20px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Bigger cards with min-width 250px */
+            grid-gap: 30px; /* Increased gap between the cards */
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+        .grid-item {
+            background-color: white;
+            padding: 40px; /* Increased padding for larger cards */
+            text-align: center;
+            border-radius: 15px; /* Increased border radius for smoother edges */
+            font-weight: bold;
+            font-size: 1.4rem; /* Increased font size for better readability */
+            color: blueviolet;
+            transition: transform 0.3s, box-shadow 0.3s; /* Enhanced smooth transition */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Slightly larger shadow for a floating effect */
+            border: 1px solid #ddd;
+        }
+
+        .grid-item:hover {
+            transform: scale(1.1); /* Increased hover scale for a more dynamic feel */
+            cursor: pointer;
+            color: blue;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 1.8rem;
+        }
+
+        button {
+            display: block;
+            margin: 10px auto;
+            padding: 15px 30px; /* Bigger button for easier interaction */
+            font-size: 1.2rem; /* Increased button font size */
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px; /* More rounded button */
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049; /* Enhanced hover effect for the button */
+        }
+    </style>
+</head>
+<body>
+    <h1>Meenakshi Sundararajan Engineering College</h1>
+
+    <div class="grid-container">
+        <div class="grid-item"><a href="circulars.html">Circulars</a></div>
+        <div class="grid-item"><a href="results.html">Results</a></div>
+        <div class="grid-item"><a href="internals.html">Internals</a></div>
+        <div class="grid-item"><a href="grade-to-gpa.html">Grade to GPA</a></div>
+        <div class="grid-item"><a href="gpa-to-cgpa.html">GPA to CGPA</a></div>
+        <div class="grid-item"><a href="cgpa-to-percent.html">CGPA to %</a></div>
+        <div class="grid-item"><a href="attendance.html">Attendance</a></div>
+        <div class="grid-item"><a href="syllabus.html">Syllabus</a></div>
+        <div class="grid-item"><a href="notes-qp.html">Notes/QP</a></div>
+        <div class="grid-item"><a href="timetable.html">Timetable</a></div>
+        <div class="grid-item"><a href="schedule.html">Schedule</a></div>
+        <div class="grid-item"><a href="withheld.html">WithHeld</a></div>
+    </div>
+
+    <h2>Download Files</h2>
+    <button id="downloadFile1">Download File 1</button>
+    <button id="downloadFile2">Download File 2</button>
+
+    <script type="module" src="./homepage.js"></script>
+</body>
+</html>

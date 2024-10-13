@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade to GPA Converter</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #ffeb3b;
+        }
+        p {
+            text-align: center;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        input[type="button"] {
+            background-color: #ffeb3b;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        input[type="button"]:hover {
+            background-color: #ffc107;
+        }
+        table {
+            width: 100%;
+            margin: 20px 0;
+        }
+        table td {
+            padding: 10px;
+            text-align: center;
+        }
+        .result {
+            font-size: 20px;
+            text-align: center;
+            margin-top: 20px;
+            color: #76ff03;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #ffeb3b;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Grade to GPA Converter (Anna University)</h1>
+        <p>Enter the number of subjects and convert your grades to GPA.</p>
+
+        <label for="numSubjects">Select Number of Subjects:</label>
+        <select id="numSubjects" onchange="generateForm()">
+            <option value="" disabled selected>Select subjects</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+        </select>
+
+        <form id="gpaForm"></form>
+
+        <div class="result" id="result"></div>
+        
+        <a href="index.html">Back to Home</a>
+    </div>
+
+    <script>
+        const gradePoints = {
+            'O': 10,
+            'A+': 9,
+            'A': 8,
+            'B+': 7,
+            'B': 6,
+            'RA': 0
+        };
+
+        // Keep track of entered values to prevent them from disappearing
+        const enteredData = {};
+
+        function generateForm() {
+            const numSubjects = document.getElementById('numSubjects').value;
+            const form = document.getElementById('gpaForm');
+
+            // Update form while preserving existing entries
+            for (let i = 1; i <= numSubjects; i++) {
+                if (!document.getElementById('grade' + i)) {
+                    form.innerHTML += `
+                        <div>
+                            <label for="grade${i}">Subject ${i} Grade:</label>
+                            <input type="text" id="grade${i}" placeholder="Enter grade (e.g., O)">
+                        </div>
+                        <div>
+                            <label for="credits${i}">Subject ${i} Credits:</label>
+                            <input type="number" id="credits${i}" placeholder="Enter credits">
+                        </div>
+                    `;
+                }
+            }
+
+            form.innerHTML += `
+                <input type="button" value="Calculate GPA" onclick="calculateGPA(${numSubjects})">
+            `;
+
+            // Restore previously entered data
+            for (let i = 1; i <= numSubjects; i++) {
+                if (enteredData['grade' + i]) {
+                    document.getElementById('grade' + i).value = enteredData['grade' + i];
+                }
+                if (enteredData['credits' + i]) {
+                    document.getElementById('credits' + i).value = enteredData['credits' + i];
+                }
+            }
+        }
+
+        function calculateGPA(numSubjects) {
+            let totalPoints = 0;
+            let totalCredits = 0;
+
+            for (let i = 1; i <= numSubjects; i++) {
+                let grade = document.getElementById('grade'+i).value.toUpperCase();
+                let credit = parseFloat(document.getElementById('credits'+i).value);
+
+                // Save the entered values to keep them intact
+                enteredData['grade' + i] = grade;
+                enteredData['credits' + i] = credit;
+
+                if (gradePoints[grade] !== undefined && !isNaN(credit)) {
+                    totalPoints += gradePoints[grade] * credit;
+                    totalCredits += credit;
+                } else {
+                    alert("Please enter valid grades and credits for Subject " + i);
+                    return;
+                }
+            }
+
+            let gpa = totalPoints / totalCredits;
+            document.getElementById('result').innerText = "Your GPA is: " + gpa.toFixed(2);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGPA to Percentage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            padding: 30px;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+        input {
+            padding: 10px;
+            width: calc(100% - 22px);
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CGPA to Percentage</h1>
+        <p>Convert your CGPA to percentage here.</p>
+        <a href="index.html">Back to Home</a>
+        
+        <div class="form-group">
+            <label for="cgpa">Enter CGPA:</label>
+            <input type="number" id="cgpa" step="0.01" min="0" max="10" placeholder="e.g. 7.5">
+        </div>
+
+        <button onclick="convertCGPA()">Convert to Percentage</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function convertCGPA() {
+            const cgpa = parseFloat(document.getElementById('cgpa').value);
+            if (!isNaN(cgpa) && cgpa >= 0 && cgpa <= 10) {
+                const percentage = ((cgpa - 0.75) * 10).toFixed(2);
+                document.getElementById('result').innerHTML = `Your Percentage is: <strong>${percentage}%</strong>`;
+            } else {
+                document.getElementById('result').innerHTML = "Please enter a valid CGPA (0 to 10).";
+            }
+        }
+    </script>
+</body>
+</html>

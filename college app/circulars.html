@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circulars</title>
+    <style>
+        body {
+            padding: 30px;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+        }
+        .circulars-list {
+            padding: 0;
+            list-style: none;
+        }
+        .circular-item {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .circular-item h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        .circular-item p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .circular-item small {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #999;
+        }
+        a {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: blue;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Circulars</h1>
+    <p>Here, you can view all the latest circulars.</p>
+
+    <ul class="circulars-list" id="circularsList">
+        <!-- Circulars will be dynamically loaded here -->
+    </ul>
+
+    <a href="homepage.html">Back to Home</a>
+
+    <script type="module">
+        // Import necessary Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+        // Firebase configuration object
+        const firebaseConfig = {
+            apiKey: "AIzaSyBSK75CBgecge25CnvxE28bd_TJuv4XTtc",
+            authDomain: "signin-2f153.firebaseapp.com",
+            databaseURL: "https://signin-2f153-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "signin-2f153",
+            storageBucket: "signin-2f153.appspot.com",
+            messagingSenderId: "319342754495",
+            appId: "1:319342754495:web:7e2655cc045345dd82a40a",
+            measurementId: "G-QJ2FQV4JRT"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Initialize Firestore
+        const db = getFirestore(app);
+
+        // Reference to the HTML list element
+        const circularsList = document.getElementById('circularsList');
+
+        // Function to load circulars from Firestore
+        async function loadCirculars() {
+            try {
+                // Query Firestore collection 'circulars' ordered by 'date' in descending order
+                const circularsQuery = query(collection(db, 'circulars'), orderBy('date', 'desc'));
+                const querySnapshot = await getDocs(circularsQuery);
+
+                // Loop through query results and display in the list
+                querySnapshot.forEach((doc) => {
+                    const circular = doc.data();
+                    const listItem = document.createElement('li');
+                    listItem.classList.add('circular-item');
+                    
+                    // Convert Firestore timestamp to JavaScript Date
+                    const circularDate = new Date(circular.date.seconds * 1000);
+                    
+                    listItem.innerHTML = `
+                        <h3>${circular.title}</h3>
+                        <p>${circular.description}</p>
+                        <small>${circularDate.toLocaleDateString()}</small>
+                    `;
+                    
+                    circularsList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error("Error loading circulars: ", error);
+            }
+        }
+
+        // Call the function to load circulars on page load
+        window.onload = loadCirculars;
+    </script>
+</body>
+</html>
